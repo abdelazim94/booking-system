@@ -41,13 +41,15 @@ class ServiceController extends BaseController
 
     public function show($id){
         $service = Service::find($id);
+        if(! $service)
+            return $this->sendError("Not Found", null,$code=404);
         return $this->sendResponse(new ServiceResource($service), 'Service Detail.', 200);
     }
 
     public function update(Request $request, $id){
         $service = Service::find($id);
         if(!$service){
-            return sendError("Not Found", 404);
+            return sendError("Not Found", null,404);
         }
         $input = $request->all();
         $validator = Validator::make($input, [
