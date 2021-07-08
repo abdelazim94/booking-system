@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Http\ٌResponse;
 use App\Http\Resources\ServiceResource;
 use Validator;
 
@@ -81,7 +82,7 @@ class ServiceController extends BaseController
         if(!$service){
             return sendError("Not Found", 404);
         }
-        return $this->sendResponse(null, 'Service Deleted.', 200);
+        return $this->sendResponse(null, 'Service Deleted.', 204);
     }
 }
 

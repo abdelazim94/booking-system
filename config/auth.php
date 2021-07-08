@@ -46,6 +46,20 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+        'admins' => [
+            'driver' => 'sanctum',
+            'provider' => 'admins',
+        ],
+    
+        'patients' => [
+            'driver' => 'sanctum',
+            'provider' => 'patients',
+        ],
+    
+        'doctors' => [
+            'driver' => 'sanctum',
+            'provider' => 'doctors',
+        ],
     ],
 
     /*
@@ -69,6 +83,20 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+    
+        'patients' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Patient::class,
+        ],
+    
+        'doctors' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Doctor::class,
         ],
 
         // 'users' => [

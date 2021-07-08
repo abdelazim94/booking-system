@@ -27,10 +27,13 @@ class LoginTest extends TestCase
     /**@test */
     public function testUserLoginsSuccessfully()
     {
-        $user = factory(User::class)->create([
+        
+
+        $user = User::factory()->create([
             'email' => 'test@test.com',
             'password' => bcrypt('123456'),
         ]);
+
 
         $payload = ['email' => 'test@test.com', 'password' => '123456'];
 

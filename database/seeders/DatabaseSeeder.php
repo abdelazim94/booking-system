@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Service;
 use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
@@ -30,6 +31,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $user->assignRole('admin');
+        Service::factory(10)->create();
 
     }
 }
