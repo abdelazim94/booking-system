@@ -1,13 +1,10 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 use App\Models\User;
-
-class LoginTest extends TestCase
+class authTest extends TestCase
 {
     /**
      * A basic feature test example.
@@ -16,7 +13,7 @@ class LoginTest extends TestCase
      */
 
      /** @test */
-    public function login_cradential_validation(){
+     public function login_cradential_validation(){
         $this->json('POST', 'api/login')
         ->assertStatus(422)
         ->assertJson([
