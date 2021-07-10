@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\DoctorController;
 use App\Http\Controllers\API\ServiceController;
+use App\Http\Controllers\API\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,12 +26,20 @@ use App\Http\Controllers\API\ServiceController;
 |--------------------------------------------------------------------------
 */
 
-Route::post('patient/login', [AuthController::class, 'patientLogin']);
-Route::post('doctor/login', [AuthController::class, 'doctorLogin']);
-Route::post('admin/login', [AuthController::class, 'adminLogin']);
-Route::post('register', [AuthController::class, 'signup']);
+Route::prefix('v1')->group(function () {
+    Route::post('patient/login', [AuthController::class, 'patientLogin']);
+    Route::post('doctor/login', [AuthController::class, 'doctorLogin']);
+    Route::post('admin/login', [AuthController::class, 'adminLogin']);
+    Route::post('register', [AuthController::class, 'signup']);
+    Route::post('password/email', [ForgotPasswordController::class,'forgot']);
+    Route::post('password/reset', [ForgotPasswordController::class,'reset']);
 
-Route::group(['prefix'=> 'v1/admin', 'middleware'=>['auth:sanctum_admins']], function () {
-    Route::apiResource('services', ServiceController::class);
-    Route::apiResource('doctors', DoctorController::class);
+
+
+    // admin
+    Route::group(['prefix' => 'admin', 'middleware'=> ['auth:sanctum_admins']], function(){
+        Route::apiResource('services', ServiceController::class);
+        Route::apiResource('doctors', DoctorController::class);
+    });
 });
+

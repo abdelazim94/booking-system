@@ -20,7 +20,7 @@ class CreateDoctorsTable extends Migration
             $table->string('mobile');
             $table->string('photo')->nullable();
             $table->string('email')->unique();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->rememberToken();
             $table->unsignedBigInteger('service_id')->nullable();
             $table->unsignedInteger('slot');

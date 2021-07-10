@@ -22,7 +22,6 @@ class Doctor extends Authenticatable
         'name',
         'email',
         'mobile',
-        'password',
         'slot',
     ];
 
@@ -39,5 +38,7 @@ class Doctor extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    
 
 }

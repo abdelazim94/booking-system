@@ -14,6 +14,10 @@ class DoctorResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'name' => $this->email,
+            'mobile' => $this->mobile,
+            'email' => $this->email
+        ];
     }
 }
