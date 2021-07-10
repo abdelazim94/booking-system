@@ -1,49 +1,42 @@
 <?php
-   
+
 namespace App\Http\Controllers\API;
-   
+
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Controllers\API\BaseController as BaseController;
-use Illuminate\Support\Facades\Auth;
-use Validator;
-use App\Models\User;
-   
+use App\Http\Requests\Auth\AdminLoginRequest;
+use App\Http\Requests\Auth\DoctorLoginRequest;
+use App\Http\Requests\Auth\PatientLoginRequest;
+use App\Http\Requests\Auth\PatientSignupRequest;
+use App\Models\Patient;
+use App\Http\Traits\Auth\Login as LoginTrait;
+
 class AuthController extends BaseController
 {
+    use  LoginTrait;
 
-    public function signin(Request $request)
+    public function patientLogin(PatientLoginRequest $request)
     {
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){ 
-            $authUser = Auth::user(); 
-            $success['token'] =  $authUser->createToken('MyAuthApp')->plainTextToken; 
-            $success['user'] =  $authUser;
-   
-            return $this->sendResponse($success, 'User signed in');
-        } 
-        else{ 
-            return $this->sendError('Unauthorised.', ['error'=>'Cradential error'], $code=422);
-        } 
+        return $this->loginWithGuard('patients', ['mobile'=>$request->input('mobile'), 'password'=>$request->input('password')]);
+    }
+    public function adminLogin(AdminLoginRequest $request)
+    {
+        return $this->loginWithGuard('admins', ['username'=>$request->input('username'), 'password'=>$request->input('password')]);
     }
 
-    public function signup(Request $request)
+    public function doctorLogin(DoctorLoginRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required',
-            'confirm_password' => 'required|same:password',
-        ]);
-   
-        if($validator->fails()){
-            return $this->sendError('Error validation', $validator->errors(),422);       
-        }
-   
-        $input = $request->all();
-        $user = User::create($input);
-        $success['token'] =  $user->createToken('MyAuthApp')->plainTextToken;
-        $success['name'] =  $user->name;
-   
-        return $this->sendResponse($success, 'User created successfully.');
+        return $this->loginWithGuard('doctors', ['mobile'=>$request->input('mobile'), 'password'=>$request->input('password')]);
+
+    }
+
+    public function signup(PatientSignupRequest $request)
+    {
+        $user = Patient::create($request->all());
+        $data['token'] =  $user->createToken('MyAuthApp')->plainTextToken;
+        $data['user'] =  $user;
+        return $this->sendResponse($data, __('lang.user created successfully'), Response::HTTP_CREATED);
     }
 
     public function me(Request $request)
@@ -54,7 +47,7 @@ class AuthController extends BaseController
     public function logout(Request $request)
     {
         auth()->user()->tokens()->delete();
-        return $this->sendResponse($success, 'Sign Out.');
+        return $this->sendResponse(null, __('lang.log out'), $status=Response::HTTP_OK);
     }
-   
+
 }

@@ -3,9 +3,10 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\User;
+use App\Models\Admin;
+use App\Models\Doctor;
+use App\Models\Patient;
 use App\Models\Service;
-use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,19 +19,31 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        $roles = ["admin", "doctor", "patient"];
+        // $roles = ["admin", "doctor", "patient"];
 
-        foreach($roles as $role){
-            Role::create(['name' => $role]);
-        }
+        // foreach($roles as $role){
+        //     Role::create(['name' => $role]);
+        // }
 
-        $user= User::create([
+        $admin= Admin::create([
             'name' => 'admin',
-            'email' => 'admin@admin.com',
+            'username' => 'admin',
+            'password' => bcrypt('123456'),
+        ]);
+        $doctor= Doctor::create([
+            'name' => 'doctor1',
+            'email' => 'doc@doc.com',
+            'mobile' => '01128896777',
+            'password' => bcrypt('123456'),
+            'slot'=>30
+        ]);
+        $patient= Patient::create([
+            'name' => 'patient',
+            'mobile' => '01128896776',
             'password' => bcrypt('123456'),
         ]);
 
-        $user->assignRole('admin');
+        // $user->assignRole('admin');
         Service::factory(10)->create();
 
     }

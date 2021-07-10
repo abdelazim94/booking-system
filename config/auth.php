@@ -47,19 +47,37 @@ return [
             'hash' => false,
         ],
         'admins' => [
-            'driver' => 'sanctum',
+            'driver' => 'session',
             'provider' => 'admins',
         ],
-    
+
         'patients' => [
-            'driver' => 'sanctum',
+            'driver' => 'session',
             'provider' => 'patients',
         ],
-    
         'doctors' => [
+            'driver' => 'session',
+            'provider' => 'doctors',
+        ],
+
+        'sanctum_doctors' => [
             'driver' => 'sanctum',
             'provider' => 'doctors',
         ],
+
+        'sanctum_admins' => [
+            'driver' => 'sanctum',
+            'provider' => 'admins',
+        ],
+
+        'sanctum_patients' => [
+            'driver' => 'sanctum',
+            'provider' => 'patients',
+        ],
+
+
+
+
     ],
 
     /*
@@ -88,12 +106,12 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],
-    
+
         'patients' => [
             'driver' => 'eloquent',
             'model' => App\Models\Patient::class,
         ],
-    
+
         'doctors' => [
             'driver' => 'eloquent',
             'model' => App\Models\Doctor::class,

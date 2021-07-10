@@ -1,88 +1,65 @@
 <?php
 
 namespace App\Http\Controllers\API;
+
 use App\Http\Controllers\API\BaseController as BaseController;
+use App\Http\Requests\ServiceRequest;
+use App\Http\Resources\ServiceCollection;
 use App\Models\Service;
 use Illuminate\Http\Request;
-use Illuminate\Http\ٌResponse;
+use Illuminate\Http\Response;
 use App\Http\Resources\ServiceResource;
-use Validator;
 
 
 class ServiceController extends BaseController
 {
-    public function index(){
-        $services = Service::all();
-        return $this->sendResponse(ServiceResource::collection($services), 'Services List.', 200);
+    public function index()
+    {
+        $services = Service::paginate(5);
+        return $this->sendResponse(new ServiceCollection($services), __('lang.msg'), Response::HTTP_OK);
     }
 
-    public function store(Request $request){
-        $input = $request->all();
-        $validator = Validator::make($input, [
-            'name_en' => 'required|min:3|max:150',
-            'description_en' => 'required',
-            'name_ar' => 'required|min:3|max:150',
-            'description_ar' => 'required'
-        ]);
-        if($validator->fails()){
-            return $this->sendError($validator->errors(), 422);       
-        }
+    public function store(ServiceRequest $request)
+    {
+        $inputs = $request->all();
         $service = new Service;
-        $service->setTranslations('name', [
-            'en' => $input['name_en'],
-            'ar' => $input['name_ar']
+        $service->setFieldsTranslations([
+            'name' => [
+                'en' => $inputs['name_en'],
+                'ar' => $inputs['name_ar']
+            ],
+            'description' => [
+                'en' => $inputs['description_en'],
+                'ar' => $inputs['description_ar']
+            ]
         ]);
-        $service->setTranslations('description', [
-            'en' => $input['description_en'],
-            'ar' => $input['description_ar']
-        ]);
-        $service->save();
-        return $this->sendResponse(new ServiceResource($service), 'Service created.', 200);
+
+        return $this->sendResponse(new ServiceResource($service), __('lang.Service created'), Response::HTTP_CREATED);
     }
 
-    public function show($id){
-        $service = Service::find($id);
-        if(! $service)
-            return $this->sendError("Not Found", null,$code=404);
-        return $this->sendResponse(new ServiceResource($service), 'Service Detail.', 200);
+    public function show(Service $service)
+    {
+        return $this->sendResponse(new ServiceResource($service), 'Service Detail.', Response::HTTP_OK);
     }
 
-    public function update(Request $request, $id){
-        $service = Service::find($id);
-        if(!$service){
-            return sendError("Not Found", null,404);
-        }
-        $input = $request->all();
-        $validator = Validator::make($input, [
-            'name_en' => 'required|min:3|max:150',
-            'description_en' => 'required',
-            'name_ar' => 'required|min:3|max:150',
-            'description_ar' => 'required'
+    public function update(ServiceRequest $request, Service $service)
+    {
+        $inputs = $request->all();
+        $service->setFieldsTranslations([
+            'name' => [
+                'en' => $inputs['name_en'],
+                'ar' => $inputs['name_ar']
+            ],
+            'description' => [
+                'en' => $inputs['description_en'],
+                'ar' => $inputs['description_ar']
+            ]
         ]);
-
-        if($validator->fails()){
-            return $this->sendError($validator->errors(), 422);       
-        }
-
-        $service->setTranslations('name', [
-            'en' => $input['name_en'],
-            'ar' => $input['name_ar']
-        ]);
-        $service->setTranslations('description', [
-            'en' => $input['description_en'],
-            'ar' => $input['description_ar']
-        ]);
-        $service->save();
-        return $this->sendResponse(new ServiceResource($service), 'Service updated.', 200);
-
+        return $this->sendResponse(new ServiceResource($service), __('lang.Service updated'), Response::HTTP_OK);
     }
 
-    public function destroy($id){
-        $service = Service::find($id);
-        if(!$service){
-            return sendError("Not Found", 404);
-        }
-        return $this->sendResponse(null, 'Service Deleted.', 204);
+    public function destroy(Service $service)
+    {
+        return $this->sendResponse(null, __('lang.Service Deleted'), Response::HTTP_NO_CONTENT);
     }
 }
-
