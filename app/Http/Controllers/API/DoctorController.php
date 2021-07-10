@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Resources\UserResource;
 use App\Models\Doctor;
+use App\Models\Service;
 use Validator;
 
 class DoctorController extends BaseController
@@ -21,6 +22,7 @@ class DoctorController extends BaseController
 
     public function store(DoctorCreateRequest $request){
         $doctor= Doctor::create($request->all());
+        $doctor->assignService(Service::find($request->service_id));
         // fire observer reset password
         return $this->sendResponse(new DoctorResource($doctor), __('lang.created'), $status=Response::HTTP_CREATED);
     }

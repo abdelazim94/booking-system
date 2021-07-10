@@ -22,9 +22,7 @@ class CreateDoctorsTable extends Migration
             $table->string('email')->unique();
             $table->string('password')->nullable();
             $table->rememberToken();
-            $table->unsignedBigInteger('service_id')->nullable();
             $table->unsignedInteger('slot');
-            $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade')->nullable();
             $table->timestamps();
         });
     }

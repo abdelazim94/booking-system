@@ -39,6 +39,16 @@ class Doctor extends Authenticatable
         'remember_token',
     ];
 
-    
+    public function service(){
+        return $this->hasOne(Service::class, 'doctor_id');
+    }
+
+    public function assignService($service){
+        return $this->service()->save($service);
+    }
+
+
+
+
 
 }

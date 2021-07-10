@@ -26,8 +26,9 @@ class DoctorCreateRequest extends FormRequest
         return [
             'name' => 'bail|required|min:5',
             'mobile' => 'required|unique:doctors,mobile|regex:/(01)[0-9]{9}/',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:doctors,email,except,id',
             'slot' => 'required',
+            'service_id' => 'required|exists:services,id'
         ];
     }
 }

@@ -23,8 +23,10 @@ class Service extends Model
                 $this->setTranslations($prop, $array[$prop]);
             }
             $this->save();
-
-
         }
+    }
+
+    public function doctor(){
+        return $this->belongsTo(Doctor::class);
     }
 }
