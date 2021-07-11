@@ -7,7 +7,7 @@ interface EloquentRepositoryInterface
 {
     public function all(array $columns=['*'], array $relations=[]): Collection;
 
-    public function paginate($total=5);
+    public function paginate(array $columns = ['*'], array $relations = [],$total=5) : Collection;
 
     public function findById(
         int $modelId,

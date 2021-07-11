@@ -1,7 +1,7 @@
 <?php
 namespace App\Repository\Eloquent;
 
-use EloquentRepositoryInterface;
+use App\Repository\EloquentRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +17,11 @@ class BaseRepository implements EloquentRepositoryInterface
     public function all(array $columns = ['*'], array $relations = []): Collection
     {
         return $this->model->with($relations)->get($columns);
+    }
+
+    public function paginate(array $columns = ['*'], array $relations = [],$total=5) : Collection
+    {
+        return $this->all($columns, $relations)->paginate($total);
     }
 
     public function findById(int $modelId, array $columns = ["*"], array $relations = [], $appends=[]): ?Model
