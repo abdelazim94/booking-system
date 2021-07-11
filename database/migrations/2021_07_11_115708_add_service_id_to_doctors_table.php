@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDoctorIdToServicesTable extends Migration
+class AddServiceIdToDoctorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class AddDoctorIdToServicesTable extends Migration
      */
     public function up()
     {
-        Schema::table('services', function (Blueprint $table) {
-            $table->unsignedBigInteger('doctor_id')->nullable();
-            $table->foreign('doctor_id')
-                ->references('id')->on('doctors')
+        Schema::table('doctors', function (Blueprint $table) {
+            $table->unsignedBigInteger('service_id')->nullable();
+            $table->foreign('service_id')
+                ->references('id')->on('services')
                 ->onDelete('cascade');
         });
     }
@@ -28,8 +28,8 @@ class AddDoctorIdToServicesTable extends Migration
      */
     public function down()
     {
-        Schema::table('services', function (Blueprint $table) {
-            Schema::dropColumns('doctor_id');
+        Schema::table('doctors', function (Blueprint $table) {
+            Schema::dropColumns('service_id');
         });
     }
 }

@@ -6,16 +6,23 @@ use App\Http\Controllers\API\BaseController as BaseController;
 use App\Http\Requests\ServiceRequest;
 use App\Http\Resources\ServiceCollection;
 use App\Models\Service;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Resources\ServiceResource;
-
+use App\Repository\ServiceRepositoryInterface;
 
 class ServiceController extends BaseController
 {
+
+    private $serviceRepository;
+
+    public function __construct(ServiceRepositoryInterface $serviceRepository)
+    {
+        $this->serviceRepository = $serviceRepository;
+    }
+
     public function index()
     {
-        $services = Service::paginate(5);
+        $services = $this->serviceRepository->paginate();
         return $this->sendResponse(new ServiceCollection($services), __('lang.msg'), Response::HTTP_OK);
     }
 

@@ -40,7 +40,7 @@ class Doctor extends Authenticatable
     ];
 
     public function service(){
-        return $this->hasOne(Service::class, 'doctor_id');
+        return $this->belongsTo(Service::class);
     }
 
     public function assignService($service){

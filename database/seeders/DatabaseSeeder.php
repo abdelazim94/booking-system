@@ -25,6 +25,21 @@ class DatabaseSeeder extends Seeder
         //     Role::create(['name' => $role]);
         // }
 
+        for($i=0;$i<5;$i++){
+            $service = new Service();
+            $service->setFieldsTranslations([
+                'name' => [
+                    'en' => 'service_en'.$i,
+                    'ar' => 'service_ar'.$i
+                ],
+                'description' => [
+                    'en' => 'description_en'.$i,
+                    'ar' => 'description_ar'.$i
+                ]
+            ]);
+
+        }
+
         $admin= Admin::create([
             'name' => 'admin',
             'username' => 'admin',
@@ -35,7 +50,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'doc@doc.com',
             'mobile' => '01128896777',
             'password' => bcrypt('123456'),
-            'slot'=>30
+            'slot'=>30,
+            'service_id' => 1
         ]);
         $patient= Patient::create([
             'name' => 'patient',
@@ -44,7 +60,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // $user->assignRole('admin');
-        Service::factory(10)->create();
+        // Service::factory(10)->create();
+
 
     }
 }

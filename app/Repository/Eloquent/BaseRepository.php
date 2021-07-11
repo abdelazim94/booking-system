@@ -19,9 +19,9 @@ class BaseRepository implements EloquentRepositoryInterface
         return $this->model->with($relations)->get($columns);
     }
 
-    public function paginate(array $columns = ['*'], array $relations = [],$total=5) : Collection
+    public function paginate($total=5,  array $relations = [])
     {
-        return $this->all($columns, $relations)->paginate($total);
+        return $this->model->with($relations)->paginate($total);
     }
 
     public function findById(int $modelId, array $columns = ["*"], array $relations = [], $appends=[]): ?Model
