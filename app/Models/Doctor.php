@@ -23,6 +23,8 @@ class Doctor extends Authenticatable
         'email',
         'mobile',
         'slot',
+        'photo',
+        'service_id'
     ];
 
     public function setPasswordAttribute($password){
