@@ -6,6 +6,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\DoctorController;
 use App\Http\Controllers\API\ServiceController;
 use App\Http\Controllers\API\ForgotPasswordController;
+use App\Http\Controllers\API\SlotController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,9 @@ Route::prefix('v1')->group(function () {
     Route::group(['prefix' => 'admin', 'middleware'=> ['auth:sanctum_admins']], function(){
         Route::apiResource('services', ServiceController::class);
         Route::apiResource('doctors', DoctorController::class);
+    });
+    Route::group(['prefix' => 'doctor', 'middleware'=> ['auth:sanctum_doctors']], function(){
+        Route::apiResource('slots', SlotController::class);
     });
 });
 

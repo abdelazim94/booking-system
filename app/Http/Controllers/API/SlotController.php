@@ -15,9 +15,10 @@ class SlotController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Doctor $doctor)
+    public function index()
     {
-        return $this->sendResponse($data= new SlotResource($doctor->slots()), __('lang.slots'), Response::HTTP_OK);
+        $user = auth()->user;
+        return $this->sendResponse($data= new SlotResource($user->slots()), __('lang.slots'), Response::HTTP_OK);
     }
 
 
