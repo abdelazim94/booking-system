@@ -17,6 +17,7 @@
         "laravel/legacy-factories": "^1.1",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "spatie/laravel-enum": "^2.5",
         "spatie/laravel-permission": "^4.2",
         "spatie/laravel-translatable": "^4.6"
     },
