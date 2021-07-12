@@ -21,4 +21,7 @@ interface EloquentRepositoryInterface
     public function update(int $modelId, array $payload):bool;
 
     public function deleteById(int $modelId): bool;
+
+    public function updateWitBind($model, $payload);
+
 }

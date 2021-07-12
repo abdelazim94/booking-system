@@ -41,6 +41,10 @@ class BaseRepository implements EloquentRepositoryInterface
         return $model->update($payload);
     }
 
+    public function updateWitBind($model, $payload){
+        return $model->update($payload);
+    }
+
     public function deleteById(int $modelId): bool
     {
         return $this->findById($modelId)->delete();

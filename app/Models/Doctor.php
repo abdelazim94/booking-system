@@ -47,6 +47,13 @@ class Doctor extends Authenticatable
         return $this->hasMany(Slot::class);
     }
 
+    public function createManySlots($records){
+        foreach($records as $record){
+            $this->slots()->create($record);
+        }
+        return true;
+    }
+
 
 
 

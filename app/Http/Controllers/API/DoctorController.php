@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Http\Requests\DoctorCreateRequest;
+use App\Http\Requests\DoctorUpdateRequest;
 use App\Http\Resources\DoctorCollection;
 use App\Http\Resources\DoctorResource;
 use Illuminate\Http\Response;
@@ -35,19 +36,11 @@ class DoctorController extends BaseController
             $photo = $this->imageUploader->upload($request->photo, 'doctors/photos', $size=[150,150]);
             $formData['photo'] = $photo;
         }
-        $doctor= Doctor::create($formData);
+        $doctor = $this->doctorRepository->create($formData);
+        // fire observer reset password
         $slots= $request->only('slots');
         $slots=reset($slots);
-
-        foreach($slots as $slot){
-            $doctor->slots()->create($slot);
-        }
-
-        // fire observer reset password
-
-        /**
-         *  create slots
-         */
+        $doctor->createManySlots($slots);
 
         return $this->sendResponse(new DoctorResource($doctor), __('lang.created'), $status=Response::HTTP_CREATED);
     }
@@ -57,7 +50,7 @@ class DoctorController extends BaseController
         return $this->sendResponse(new DoctorResource($doctor), __('lang.detail'), $status=Response::HTTP_OK);
     }
 
-    public function update(DoctorCreateRequest $request,Doctor $doctor)
+    public function update(DoctorUpdateRequest $request,Doctor $doctor)
     {
         $formData = $request->validated();
         if($request->has('photo'))
@@ -65,8 +58,8 @@ class DoctorController extends BaseController
             $photo = $this->imageUploader->upload($request->photo, 'doctors/photos', $size=[150,150]);
             $formData['photo'] = $photo;
         }
-        $doctor = $doctor->update($formData);
-        return $this->sendResponse(new DoctorResource($doctor), __('lang.updated'), $status=Response::HTTP_OK);
+        $this->doctorRepository->updateWitBind($doctor, $formData);
+        return $this->sendResponse(new DoctorResource($doctor->fresh()), __('lang.updated'), $status=Response::HTTP_OK);
     }
 
     public function destroy(Doctor $doctor)
