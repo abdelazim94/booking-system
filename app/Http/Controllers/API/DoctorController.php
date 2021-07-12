@@ -36,7 +36,19 @@ class DoctorController extends BaseController
             $formData['photo'] = $photo;
         }
         $doctor= Doctor::create($formData);
+        $slots= $request->only('slots');
+        $slots=reset($slots);
+
+        foreach($slots as $slot){
+            $doctor->slots()->create($slot);
+        }
+
         // fire observer reset password
+
+        /**
+         *  create slots
+         */
+
         return $this->sendResponse(new DoctorResource($doctor), __('lang.created'), $status=Response::HTTP_CREATED);
     }
 

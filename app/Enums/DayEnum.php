@@ -10,13 +10,26 @@ use Spatie\Enum\Laravel\Enum;
  */
 final class DayEnum extends Enum
 {
-    const SAT = 0;
-    const SUN = 1;
-    const MON = 2;
-    const TUE = 3;
-    const WED = 4;
-    const THU = 5;
-    const FRI = 6;
+    const SAT = 1;
+    const SUN = 2;
+    const MON = 3;
+    const TUE = 4;
+    const WED = 5;
+    const THU = 6;
+    const FRI = 7;
+
+    // protected static function values(): array
+    // {
+    //     return [
+    //          'SAT' => 0,
+    //          'SUN' => 1,
+    //          'MON' => 2,
+    //          'TUE' => 3,
+    //          'WED' => 4,
+    //          'THU' => 5,
+    //          'FRI' => 6
+    //     ];
+    // }
 
     public static function attr()
     {
