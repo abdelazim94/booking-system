@@ -19,7 +19,6 @@ class CreateSlotsTable extends Migration
             $table->enum('day', ['sat', 'sun', 'mon', 'tue', 'wed', 'thu', 'fri']);
             $table->time('start');
             $table->time('end');
-            $table->integer('duration');
             $table->foreign('doctor_id')
                 ->references('id')->on('doctors')
                 ->onDelete('cascade');

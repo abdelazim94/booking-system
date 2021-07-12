@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Services;
+
+use App\Http\Services\ImageUploaderInterface as ServicesImageUploaderInterface;
 use Image;
 use Illuminate\Support\Facades\File;
-use ImageUploaderInterface;
 
-class ImageUploader implements ImageUploaderInterface
+
+class ImageUploader implements ServicesImageUploaderInterface
 {
     /**
      * @parmeter $image
@@ -13,13 +15,12 @@ class ImageUploader implements ImageUploaderInterface
      * resize image and upload to specific destination
      * retutn image_path
      */
-    public function upload($image, $destination, $size=[150,150]):string{
-
+    public function upload($image, $destination, $size=[150,150]):string
+    {
         $imgName = time().'.'.$image->getClientOriginalExtension();
         $imgFile = Image::make($image->getRealPath());
         $image_path = public_path($destination).'/'.$imgName;
         $this->createDirecrotory(public_path($destination));
-
         $imgFile->resize($size[0], $size[1], function ($constraint) {
 		    $constraint->aspectRatio();
 		})->save($image_path);

@@ -8,14 +8,14 @@ use App\Http\Resources\ServiceCollection;
 use App\Models\Service;
 use Illuminate\Http\Response;
 use App\Http\Resources\ServiceResource;
-use App\Repository\ServiceRepositoryInterface;
+use App\Repository\Eloquent\ServiceRepository;
 
 class ServiceController extends BaseController
 {
 
     private $serviceRepository;
 
-    public function __construct(ServiceRepositoryInterface $serviceRepository)
+    public function __construct(ServiceRepository $serviceRepository)
     {
         $this->serviceRepository = $serviceRepository;
     }
@@ -28,7 +28,7 @@ class ServiceController extends BaseController
 
     public function store(ServiceRequest $request)
     {
-        $inputs = $request->all();
+        $inputs = $request->validated();
         $service = new Service;
         $service->setFieldsTranslations([
             'name' => [
@@ -51,7 +51,7 @@ class ServiceController extends BaseController
 
     public function update(ServiceRequest $request, Service $service)
     {
-        $inputs = $request->all();
+        $inputs = $request->validated();
         $service->setFieldsTranslations([
             'name' => [
                 'en' => $inputs['name_en'],
@@ -67,6 +67,7 @@ class ServiceController extends BaseController
 
     public function destroy(Service $service)
     {
+        $service->delete();
         return $this->sendResponse(null, __('lang.Service Deleted'), Response::HTTP_NO_CONTENT);
     }
 }

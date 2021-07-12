@@ -18,7 +18,8 @@ class DoctorResource extends JsonResource
             'name' => $this->name,
             'mobile' => $this->mobile,
             'email' => $this->email,
-            'service' => new ServiceResource($this->service)
+            'service' => new ServiceResource($this->service),
+            'slots' => SlotResource::collection($this->slots)
         ];
     }
 }
