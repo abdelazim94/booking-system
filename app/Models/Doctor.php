@@ -45,8 +45,8 @@ class Doctor extends Authenticatable
         return $this->belongsTo(Service::class);
     }
 
-    public function assignService($service){
-        return $this->service()->save($service);
+    public function slots(){
+        return $this->hasMany(Slot::class);
     }
 
 

@@ -3,7 +3,9 @@
 namespace App\Http\Services;
 use Image;
 use Illuminate\Support\Facades\File;
-class ImageUploader
+use ImageUploaderInterface;
+
+class ImageUploader implements ImageUploaderInterface
 {
     /**
      * @parmeter $image
@@ -11,7 +13,7 @@ class ImageUploader
      * resize image and upload to specific destination
      * retutn image_path
      */
-    public function upload($image, $destination, $size=[150,150]){
+    public function upload($image, $destination, $size=[150,150]):string{
 
         $imgName = time().'.'.$image->getClientOriginalExtension();
         $imgFile = Image::make($image->getRealPath());
@@ -24,11 +26,11 @@ class ImageUploader
         return $destination.'/'.$imgName;
     }
 
-    private function createDirecrotory($dir)
+    public function createDirecrotory($dir) : bool
     {
         $path = $dir;
         if(!File::isDirectory($path))
             File::makeDirectory($path, 0777, true, true);
-        return;
+        return true;
     }
 }
